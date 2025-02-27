@@ -1,0 +1,11 @@
+[params]
+start_page_id = 0
+end_page_id = 5
+lang = ""  # Empty string for None
+formula_enable = false
+table_enable = false
+
+[paths]
+prompt_cleaning = "/workspace/MinerU/prompt_cleaning.md"
+credentials = "/workspace/MinerU/credentials.json"
+output_file = "/workspace/MinerU/output/file.txt"
