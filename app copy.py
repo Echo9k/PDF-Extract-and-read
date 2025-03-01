@@ -1,12 +1,18 @@
 # app.py
 import os
 import json
+import gradio as gr
+from gradio_pdf import PDF
 import logging
 from model import model_initialized
 from pdf_processor import to_pdf, to_markdown, file_to_pdf
 from config import config
 from tts import text_to_speech, generate_audio  # Import TTS module
 from initializer import initialize_app
+
+
+
+
 
 # Set up logging with ANSI escape codes for colored output
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -78,6 +84,9 @@ with gr.Blocks() as demo:
                     md_render = gr.Markdown(label="Markdown rendering", height=1100, show_copy_button=True, line_breaks=True)
                 with gr.Tab("Markdown text"):
                     md_text = gr.TextArea(lines=45, show_copy_button=True)
+            # Audio component for TTS playback
+            audio_output = gr.Audio(label="Read Aloud", type="filepath")
+            read_button = gr.Button("Read Aloud")
     
     file_input.change(fn=file_to_pdf, inputs=file_input, outputs=pdf_display)
     
@@ -86,7 +95,13 @@ with gr.Blocks() as demo:
         inputs=[file_input, max_pages, is_ocr, layout_mode, formula_enable, table_enable, language],
         outputs=[md_render, md_text, output_file, pdf_display]
     )
-
+    
+    # When "Read Aloud" is clicked, generate audio from the markdown text
+    read_button.click(
+        fn=generate_audio,
+        inputs=md_text,
+        outputs=audio_output
+    )
     
     clear_button.add([file_input, md_render, pdf_display, md_text, output_file, is_ocr])
 
