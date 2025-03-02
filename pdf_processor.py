@@ -11,6 +11,7 @@ from magic_pdf.libs.hash_utils import compute_sha256
 from magic_pdf.tools.common import do_parse, prepare_env
 from utils import compress_directory_to_zip, replace_image_with_base64
 
+
 def read_fn(path):
     disk_rw = FileBasedDataReader(os.path.dirname(path))
     return disk_rw.read(os.path.basename(path))

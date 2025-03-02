@@ -6,7 +6,7 @@ from gradio_pdf import PDF
 import logging
 from model import model_initialized
 from pdf_processor import to_pdf, to_markdown, file_to_pdf
-from config import config
+from utils.config import config
 from tts import text_to_speech, generate_audio  # Import TTS module
 from initializer import initialize_app
 
