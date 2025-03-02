@@ -6,7 +6,7 @@ from model import model_initialized
 from pdf_processor import to_pdf, to_markdown, file_to_pdf
 from config import config
 from tts import text_to_speech, generate_audio  # Import TTS module
-from initializer import initialize_app
+
 
 # Set up logging with ANSI escape codes for colored output
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -16,9 +16,6 @@ def log_info(message: str):
 
 def log_error(message: str):
     logging.error(f"\033[91m{message}\033[0m")  # Red for errors
-
-# Run the initialization once.
-initialize_app()
 
 # Load header HTML content
 try:
@@ -91,8 +88,4 @@ with gr.Blocks() as demo:
     clear_button.add([file_input, md_render, pdf_display, md_text, output_file, is_ocr])
 
 if __name__ == "__main__":
-    import subprocess
-    print("Checking and downloading models if necessary...")
-    subprocess.run(["python", "download_models.py"])
-    print("Models are ready!")
     demo.launch(ssr_mode=True)
