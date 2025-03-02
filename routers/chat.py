@@ -1,14 +1,25 @@
-# routers/chat.py
-from fastapi import APIRouter, HTTPException, Form
-from fastapi.responses import JSONResponse
-from services.chat_service import query_chatbot
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+import logging
 
-router = APIRouter(prefix="/chat", tags=["Chat"])
+router = APIRouter(prefix="/chat", tags=["Chatbot"])
+
+class ChatQuery(BaseModel):
+    query: str
 
 @router.post("/query")
-async def chat_query(user_query: str = Form(...)):
+async def chat_query(request: ChatQuery):
+    """
+    Query the chatbot with a text query.
+    """
     try:
-        result = query_chatbot(user_query)
-        return JSONResponse(content=result)
+        # Here you would integrate with your chat_service (ElasticSearch and LangChain)
+        # For now, return a placeholder response.
+        response = {
+            "query": request.query,
+            "response": f"Response to '{request.query}' from chatbot."
+        }
+        return response
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error processing chat query: {e}")
+        logging.exception("Error processing chat query: %s", e)
+        raise HTTPException(status_code=500, detail="Chat processing failed.")
